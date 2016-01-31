@@ -5,7 +5,8 @@ import org.hibernate.Session;
 import java.util.List;
 
 /**
- * Created by kolyan on 31.01.16.
+ * @author kolyan
+ * @since 1.0
  */
 public interface MainDao {
 

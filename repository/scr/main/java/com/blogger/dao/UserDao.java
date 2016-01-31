@@ -3,7 +3,8 @@ package com.blogger.dao;
 import com.blogger.entity.User;
 
 /**
- * Created by kolyan on 31.01.16.
+ * @author kolyan
+ * @since 1.0
  */
 public interface UserDao {
     User create(User user);

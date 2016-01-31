@@ -26,16 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * <p>
- * A simple servlet taking advantage of features added in 3.0.
- * </p>
- *
- * <p>
- * The servlet is registered and mapped to /HomeServlet using the {@linkplain WebServlet
- * </p>
- *
  * @author kolyan
- *
+ * @since 1.0
  */
 @SuppressWarnings("serial")
 @WebServlet("/home")

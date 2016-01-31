@@ -7,7 +7,8 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 /**
- * Created by kolyan on 31.01.16.
+ * @author kolyan
+ * @since 1.0
  */
 @Stateless
 public class UserDaoImpl implements UserDao {
