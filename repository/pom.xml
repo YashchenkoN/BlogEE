@@ -21,6 +21,6 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>scr/main/java</sourceDirectory>
+        <sourceDirectory>src/main/java</sourceDirectory>
     </build>
 </project>

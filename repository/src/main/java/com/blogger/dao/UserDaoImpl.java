@@ -5,6 +5,7 @@ import com.blogger.entity.User;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @author kolyan
@@ -35,5 +36,14 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void delete(User user) {
         mainDao.delete(user);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<User> getUsers(int offset, int stepSize) {
+        return mainDao.getSession().createCriteria(User.class)
+                .setFirstResult(offset * stepSize)
+                .setFetchSize(stepSize)
+                .list();
     }
 }
