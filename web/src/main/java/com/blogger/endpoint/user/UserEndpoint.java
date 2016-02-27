@@ -74,7 +74,7 @@ public class UserEndpoint {
             return Response.status(Response.Status.BAD_REQUEST)
                     .build();
         }
-//        userService.delete();
+        userService.delete(userService.read(userId));
         return Response.ok()
                 .build();
 

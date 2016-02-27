@@ -2,6 +2,7 @@ package com.blogger.service;
 
 import com.blogger.dao.UserDao;
 import com.blogger.entity.User;
+import com.blogger.entity.UserRole;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -16,8 +17,16 @@ public class UserServiceImpl implements UserService {
     @Inject
     private UserDao userDao;
 
+    @Inject
+    private PasswordService passwordService;
+
+    @Inject
+    private UserRoleService userRoleService;
+
     @Override
     public User create(User user) {
+        user.setPassword(passwordService.encode(user.getPassword()));
+        user.setRole(userRoleService.read(UserRole.UNACTIVE));
         return userDao.create(user);
     }
 

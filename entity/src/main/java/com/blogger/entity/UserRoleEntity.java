@@ -13,6 +13,10 @@ public class UserRoleEntity {
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
 
+    public UserRoleEntity(UserRole userRole) {
+        this.role = userRole;
+    }
+
     public UserRole getRole() {
         return role;
     }
