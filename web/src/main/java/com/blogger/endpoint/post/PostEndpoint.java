@@ -3,14 +3,14 @@ package com.blogger.endpoint.post;
 import com.blogger.converter.PostDTOtoPostConverter;
 import com.blogger.converter.PostToPostDTOConverter;
 import com.blogger.dto.PostDTO;
+import com.blogger.entity.Post;
+import com.blogger.entity.User;
 import com.blogger.service.PostService;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.validation.Valid;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -48,6 +48,62 @@ public class PostEndpoint {
                 .collect(Collectors.toList());
         return Response.ok()
                 .entity(postDTOs)
+                .build();
+    }
+
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPost(@PathParam("id") Long postId) {
+        if(postId <= 0L) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .build();
+        }
+
+        return Response.ok()
+                .entity(converterToDTO.convert(postService.read(postId)))
+                .build();
+    }
+
+    @POST
+    @Path("/")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createPost(@Valid PostDTO postDTO) {
+        Post post = postService.create(converterToEntity.convert(postDTO));
+        return Response.ok()
+                .entity(converterToDTO.convert(post))
+                .build();
+    }
+
+    @PUT
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updatePost(@PathParam("id") Long postId,
+                               @Valid PostDTO postDTO) {
+        if(postId <= 0L) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .build();
+        }
+
+        postDTO.setPostId(postId);
+        Post post = postService.update(converterToEntity.convert(postDTO));
+        return Response.ok()
+                .entity(converterToDTO.convert(post))
+                .build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deletePost(@PathParam("id") Long postId) {
+        if(postId <= 0L) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .build();
+        }
+        postService.delete(postService.read(postId));
+        return Response.ok()
                 .build();
     }
 }

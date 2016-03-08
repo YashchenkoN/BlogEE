@@ -42,21 +42,22 @@ public class PostDaoImpl implements PostDao {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Post> getByParameters(int offset, int stepSize, String sort, Long userId) {
-        return getCriteriaForParameters(offset, stepSize)
+    public List<Post> getByParameters(int offset, int stepSize, Order order, Long userId) {
+        return getCriteriaForParameters(offset, stepSize, order)
                 .createAlias("author", "a")
                 .add(Restrictions.eq("a.id", userId))
-                .addOrder(Order.asc(sort))
+                .addOrder(order)
                 .list();
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Post> getByParameters(int offset, int stepSize) {
-        return getCriteriaForParameters(offset, stepSize).list();
+    public List<Post> getByParameters(int offset, int stepSize, Order order) {
+        return getCriteriaForParameters(offset, stepSize, order)
+                .list();
     }
 
-    private Criteria getCriteriaForParameters(int offset, int stepSize) {
+    private Criteria getCriteriaForParameters(int offset, int stepSize, Order order) {
         return mainDao.getSession().createCriteria(Post.class)
                 .setFirstResult(offset * stepSize)
                 .setFetchSize(stepSize);
