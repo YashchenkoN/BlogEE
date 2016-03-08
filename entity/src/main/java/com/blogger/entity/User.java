@@ -1,7 +1,6 @@
 package com.blogger.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -19,11 +18,9 @@ public class User {
     private Long id;
 
     @Column(name = "login", nullable = false)
-    @Size(min = 4, max = 15)
-    private String login;
+    private String email;
 
     @Column(name = "password", nullable = false)
-    @Size(min = 5, max = 20)
     private String password;
 
     @OneToMany(fetch = FetchType.EAGER)
@@ -42,12 +39,12 @@ public class User {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
+    public String getEmail() {
+        return email;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setEmail(String login) {
+        this.email = login;
     }
 
     public String getPassword() {

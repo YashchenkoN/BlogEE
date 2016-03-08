@@ -29,9 +29,7 @@ public class Post {
     @Size(max = 40)
     private String title;
 
-    // todo add size
     @Column(name = "body", nullable = false)
-//    @Size(min = 40)
     private String body;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
