@@ -1,7 +1,6 @@
 package com.blogger.endpoint.post;
 
-import com.blogger.converter.PostDTOtoPostConverter;
-import com.blogger.converter.PostToPostDTOConverter;
+import com.blogger.converter.Converter;
 import com.blogger.dto.PostDTO;
 import com.blogger.entity.Post;
 import com.blogger.service.PostService;
@@ -26,10 +25,10 @@ public class PostEndpoint {
     private PostService postService;
 
     @Inject
-    private PostDTOtoPostConverter converterToEntity;
+    private Converter<PostDTO, Post> converterToEntity;
 
     @Inject
-    private PostToPostDTOConverter converterToDTO;
+    private Converter<Post, PostDTO> converterToDTO;
 
     @GET
     @Path("/")

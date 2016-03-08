@@ -1,7 +1,6 @@
 package com.blogger.endpoint.user;
 
-import com.blogger.converter.UserDTOtoUserConverter;
-import com.blogger.converter.UserToUserDTOConverter;
+import com.blogger.converter.Converter;
 import com.blogger.dto.UserDTO;
 import com.blogger.entity.User;
 import com.blogger.service.UserService;
@@ -25,10 +24,10 @@ public class UserEndpoint {
     private UserService userService;
 
     @Inject
-    private UserDTOtoUserConverter converterToEntity;
+    private Converter<UserDTO, User> converterToEntity;
 
     @Inject
-    private UserToUserDTOConverter converterToDTO;
+    private Converter<User, UserDTO> converterToDTO;
 
     @GET
     @Path("/")
