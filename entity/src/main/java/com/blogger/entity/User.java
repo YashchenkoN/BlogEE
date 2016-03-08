@@ -2,6 +2,8 @@ package com.blogger.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
+import java.util.Set;
 
 /**
  * Created by kolyan on 31.01.16.
@@ -24,8 +26,13 @@ public class User {
     @Size(min = 5, max = 20)
     private String password;
 
-    @OneToOne(fetch = FetchType.EAGER, optional = false)
-    private UserRoleEntity role;
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
+    private Set<UserRoleEntity> roles;
+
+    @Column(name = "registration_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDate registrationDate;
 
     public Long getId() {
         return id;
@@ -51,11 +58,19 @@ public class User {
         this.password = password;
     }
 
-    public UserRoleEntity getRole() {
-        return role;
+    public Set<UserRoleEntity> getRoles() {
+        return roles;
     }
 
-    public void setRole(UserRoleEntity role) {
-        this.role = role;
+    public void setRoles(Set<UserRoleEntity> roles) {
+        this.roles = roles;
+    }
+
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(LocalDate registrationDate) {
+        this.registrationDate = registrationDate;
     }
 }

@@ -6,6 +6,7 @@ import com.blogger.entity.UserRole;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User create(User user) {
         user.setPassword(passwordService.encode(user.getPassword()));
-        user.setRole(userRoleService.read(UserRole.UNACTIVE));
+        user.setRoles(Collections.singleton(userRoleService.read(UserRole.UNACTIVE)));
         return userDao.create(user);
     }
 
