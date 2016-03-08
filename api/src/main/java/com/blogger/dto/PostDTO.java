@@ -19,6 +19,8 @@ public class PostDTO {
     @NotNull
     private String title;
 
+    private String description;
+
     @Size(min = 40)
     @NotNull
     private String body;
@@ -58,6 +60,14 @@ public class PostDTO {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getBody() {

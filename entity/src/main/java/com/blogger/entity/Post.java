@@ -26,8 +26,10 @@ public class Post {
     private LocalDate updateDate;
 
     @Column(name = "title", nullable = false)
-    @Size(max = 40)
     private String title;
+
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "body", nullable = false)
     private String body;
@@ -53,6 +55,14 @@ public class Post {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getBody() {
