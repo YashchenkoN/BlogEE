@@ -8,6 +8,8 @@ import javax.validation.constraints.Size;
  */
 public class UserDTO {
 
+    private Long userId;
+
     @NotNull(message = "cannot be empty")
     @Size(min = 4, max = 15, message = "length incorrect")
     private String email;
@@ -15,6 +17,14 @@ public class UserDTO {
     @NotNull(message = "cannot be empty")
     @Size(min = 5, max = 20, message = "length incorrect")
     private String password;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public String getEmail() {
         return email;

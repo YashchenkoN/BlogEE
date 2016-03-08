@@ -14,6 +14,7 @@ public class UserToUserDTOConverter implements Converter<User, UserDTO> {
     @Override
     public UserDTO convert(User object) {
         UserDTO userDTO = new UserDTO();
+        userDTO.setUserId(object.getId());
         userDTO.setEmail(object.getEmail());
         return userDTO;
     }

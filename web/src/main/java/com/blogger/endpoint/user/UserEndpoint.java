@@ -1,5 +1,8 @@
 package com.blogger.endpoint.user;
 
+import com.blogger.converter.UserDTOtoUserConverter;
+import com.blogger.converter.UserToUserDTOConverter;
+import com.blogger.dto.UserDTO;
 import com.blogger.entity.User;
 import com.blogger.service.UserService;
 
@@ -8,6 +11,8 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Nikolay Yashchenko
@@ -19,6 +24,12 @@ public class UserEndpoint {
     @Inject
     private UserService userService;
 
+    @Inject
+    private UserDTOtoUserConverter converterToEntity;
+
+    @Inject
+    private UserToUserDTOConverter converterToDTO;
+
     @GET
     @Path("/")
     @Produces("application/json")
@@ -28,8 +39,11 @@ public class UserEndpoint {
             return Response.status(Response.Status.BAD_REQUEST)
                     .build();
         }
+        List<UserDTO> userDTOs = userService.getUsers(offset, stepSize).stream()
+                .map(converterToDTO::convert)
+                .collect(Collectors.toList());
         return Response.status(Response.Status.OK)
-                .entity(userService.getUsers(offset, stepSize))
+                .entity(userDTOs)
                 .build();
     }
 
@@ -37,12 +51,12 @@ public class UserEndpoint {
     @Path("/{id}")
     @Produces("application/json")
     public Response getUser(@PathParam("id") Long userId) {
-        if(userId <= 0) {
+        if(userId <= 0L) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .build();
         }
         return Response.status(Response.Status.OK)
-                .entity(userService.read(userId))
+                .entity(converterToDTO.convert(userService.read(userId)))
                 .build();
     }
 
@@ -50,19 +64,26 @@ public class UserEndpoint {
     @Path("/")
     @Produces("application/json")
     @Consumes("application/json")
-    public Response createUser(@Valid User user) {
+    public Response createUser(@Valid UserDTO userDTO) {
+        User user = userService.create(converterToEntity.convert(userDTO));
         return Response.ok()
-                .entity(userService.create(user))
+                .entity(converterToDTO.convert(user))
                 .build();
     }
 
     @PUT
-    @Path("/")
+    @Path("/{id}")
     @Produces("application/json")
     @Consumes("application/json")
-    public Response updateUser(@Valid User user) {
+    public Response updateUser(@PathParam("id") Long userId, @Valid UserDTO userDTO) {
+        if(userId <= 0L) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .build();
+        }
+        userDTO.setUserId(userId);
+        User user = userService.update(converterToEntity.convert(userDTO));
         return Response.ok()
-                .entity(userService.update(user))
+                .entity(converterToDTO.convert(user))
                 .build();
     }
 
@@ -70,7 +91,7 @@ public class UserEndpoint {
     @Path("/{id}")
     @Produces("application/json")
     public Response deleteUser(@PathParam("id") Long userId) {
-        if(userId > 0) {
+        if(userId > 0L) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .build();
         }

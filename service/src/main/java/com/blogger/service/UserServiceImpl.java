@@ -29,7 +29,6 @@ public class UserServiceImpl implements UserService {
     public User create(User user) {
         user.setPassword(passwordService.encode(user.getPassword()));
         user.setRoles(Collections.singleton(userRoleService.read(UserRole.UNACTIVE)));
-        user.setRegistrationDate(LocalDate.now());
         return userDao.create(user);
     }
 
