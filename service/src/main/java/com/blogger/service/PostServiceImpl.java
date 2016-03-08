@@ -5,6 +5,7 @@ import com.blogger.entity.Post;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @author Nikolay Yashchenko
@@ -33,5 +34,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public void delete(Post post) {
         postDao.delete(post);
+    }
+
+    @Override
+    public List<Post> getByParameters(int offset, int stepSize, String sort, Long userId) {
+        return null;
     }
 }

@@ -2,9 +2,13 @@ package com.blogger.dao;
 
 import com.blogger.MainDao;
 import com.blogger.entity.Post;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @author Nikolay Yashchenko
@@ -34,5 +38,27 @@ public class PostDaoImpl implements PostDao {
     @Override
     public void delete(Post post) {
         mainDao.delete(post);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Post> getByParameters(int offset, int stepSize, String sort, Long userId) {
+        return getCriteriaForParameters(offset, stepSize)
+                .createAlias("author", "a")
+                .add(Restrictions.eq("a.id", userId))
+                .addOrder(Order.asc(sort))
+                .list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Post> getByParameters(int offset, int stepSize) {
+        return getCriteriaForParameters(offset, stepSize).list();
+    }
+
+    private Criteria getCriteriaForParameters(int offset, int stepSize) {
+        return mainDao.getSession().createCriteria(Post.class)
+                .setFirstResult(offset * stepSize)
+                .setFetchSize(stepSize);
     }
 }
