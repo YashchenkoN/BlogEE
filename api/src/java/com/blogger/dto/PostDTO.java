@@ -9,6 +9,8 @@ import java.util.List;
  */
 public class PostDTO {
 
+    private Long postId;
+
     private String creationDate;
 
     private String updateDate;
@@ -25,6 +27,14 @@ public class PostDTO {
     private String authorName;
 
     private List<CommentDTO> comments;
+
+    public Long getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Long postId) {
+        this.postId = postId;
+    }
 
     public String getCreationDate() {
         return creationDate;
