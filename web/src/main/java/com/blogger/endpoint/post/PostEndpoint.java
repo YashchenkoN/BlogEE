@@ -4,7 +4,6 @@ import com.blogger.converter.PostDTOtoPostConverter;
 import com.blogger.converter.PostToPostDTOConverter;
 import com.blogger.dto.PostDTO;
 import com.blogger.entity.Post;
-import com.blogger.entity.User;
 import com.blogger.service.PostService;
 
 import javax.ejb.Stateless;
