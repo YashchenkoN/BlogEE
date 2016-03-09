@@ -2,10 +2,15 @@ package com.blogger.dto;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * @author Nikolay Yashchenko
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class UserDTO {
 
     private Long userId;

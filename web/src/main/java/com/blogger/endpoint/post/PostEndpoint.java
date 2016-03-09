@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,9 +42,15 @@ public class PostEndpoint {
             return Response.status(Response.Status.BAD_REQUEST)
                     .build();
         }
-        List<PostDTO> postDTOs = postService.getByParameters(offset, stepSize, sort, userId).stream()
-                .map(converterToDTO::convert)
-                .collect(Collectors.toList());
+        // todo fix problem with lambdas
+        List<Post> posts = postService.getByParameters(offset, stepSize, sort, userId);
+        List<PostDTO> postDTOs = new ArrayList<>();
+        for(Post post : posts) {
+            postDTOs.add(converterToDTO.convert(post));
+        }
+//        List<PostDTO> postDTOs = postService.getByParameters(offset, stepSize, sort, userId).stream()
+//                .map(converterToDTO::convert)
+//                .collect(Collectors.toList());
         return Response.ok()
                 .entity(postDTOs)
                 .build();

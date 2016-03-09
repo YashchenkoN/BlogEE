@@ -2,6 +2,7 @@ package com.blogger.endpoint.user;
 
 import com.blogger.converter.Converter;
 import com.blogger.dto.UserDTO;
+import com.blogger.dto.UsersResponse;
 import com.blogger.entity.User;
 import com.blogger.service.UserService;
 
@@ -10,8 +11,8 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Nikolay Yashchenko
@@ -38,11 +39,17 @@ public class UserEndpoint {
             return Response.status(Response.Status.BAD_REQUEST)
                     .build();
         }
-        List<UserDTO> userDTOs = userService.getUsers(offset, stepSize).stream()
-                .map(converterToDTO::convert)
-                .collect(Collectors.toList());
+        // todo fix problem with java 8
+//        List<UserDTO> userDTOs = userService.getUsers(offset, stepSize).stream()
+//                .map(converterToDTO::convert)
+//                .collect(Collectors.toList());
+        List<User> users = userService.getUsers(offset, stepSize);
+        List<UserDTO> userDTOs = new ArrayList<>();
+        for(User user : users) {
+            userDTOs.add(converterToDTO.convert(user));
+        }
         return Response.status(Response.Status.OK)
-                .entity(userDTOs)
+                .entity(new UsersResponse(userDTOs))
                 .build();
     }
 

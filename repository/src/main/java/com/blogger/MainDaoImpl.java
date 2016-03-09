@@ -19,7 +19,7 @@ public class MainDaoImpl implements MainDao {
 
     @Override
     public Session getSession() {
-        return (Session) entityManager.getDelegate();
+        return entityManager.unwrap(Session.class);
     }
 
     @Override
